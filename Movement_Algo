@@ -1,0 +1,103 @@
+#include <ESP8266WiFi.h>
+  #define ir1 12
+  #define ir2 13
+  #define ir3 15
+  #define m1a 16
+  #define m1b 5
+  #define m2a 4
+  #define m2b 2
+
+void setup() 
+{
+  Serial.begin(115200);
+  pinMode(ir1,INPUT);
+  pinMode(ir2,INPUT);
+  pinMode(ir3,INPUT);
+  pinMode(m1a,OUTPUT);
+  pinMode(m1b,OUTPUT);
+  pinMode(m2a,OUTPUT);
+  pinMode(m2b,OUTPUT);
+  digitalWrite(m1a,LOW);
+  digitalWrite(m1b,LOW);
+  digitalWrite(m2a,LOW);
+  digitalWrite(m2b,LOW);
+  
+}
+
+void loop() 
+{
+ //the junction detection 
+ }
+  
+void movement()
+{
+while(b!=h) //b and h are used to detect the address of the junction
+{
+if(digitalRead(ir1)==LOW && digitalRead(ir2)==LOW && digitalRead(ir3)==LOW)
+h++;
+if(digitalRead(ir1)==LOW && digitalRead(ir2)==LOW && digitalRead(ir3)==HIGH)
+left();
+if(digitalRead(ir1)==HIGH && digitalRead(ir2)==LOW && digitalRead(ir3)==LOW)
+right();
+if(digitalRead(ir1)==HIGH && digitalRead(ir2)==LOW && digitalRead(ir3)==HIGH)
+forward();  
+}  
+}
+
+void retrace()
+{
+while(b!=h)
+{
+if(digitalRead(ir1)==LOW && digitalRead(ir2)==LOW && digitalRead(ir3)==LOW)
+h--;
+if(digitalRead(ir1)==LOW && digitalRead(ir2)==LOW && digitalRead(ir3)==HIGH)
+left();
+if(digitalRead(ir1)==HIGH && digitalRead(ir2)==LOW && digitalRead(ir3)==LOW)
+right();
+if(digitalRead(ir1)==HIGH && digitalRead(ir2)==LOW && digitalRead(ir3)==HIGH)
+forward();  
+}  
+}
+
+void turn()
+{
+right();
+delay(1500);
+while(ir2==HIGH)
+{right();}
+}
+
+void right()
+{
+  digitalWrite(m1a,LOW);
+  digitalWrite(m1a,LOW);
+  digitalWrite(m2a,HIGH);
+  digitalWrite(m2b,LOW);
+  delay(50);
+  }
+
+  void left()
+{
+  digitalWrite(m1a,HIGH);
+  digitalWrite(m1a,LOW);
+  digitalWrite(m2a,LOW);
+  digitalWrite(m2b,LOW);
+  delay(50);
+  }
+
+  void forward()
+  {
+  digitalWrite(m1a,HIGH);
+  digitalWrite(m1a,LOW);
+  digitalWrite(m2a,HIGH);
+  digitalWrite(m2b,LOW);
+  delay(50);
+   }
+   void pause()
+  {
+  digitalWrite(m1a,LOW);
+  digitalWrite(m1a,LOW);
+  digitalWrite(m2a,LOW);
+  digitalWrite(m2b,LOW);
+  delay(50);
+   }
